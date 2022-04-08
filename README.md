@@ -16,7 +16,7 @@
 - Add the Engage Flutter Plugin to your project.   
 `flutter pub add engage`
 
-## Usage
+## Usage and Examples
 
 Import `package:engage/engage.dart` and initialize the plugin.
 
@@ -34,7 +34,7 @@ void main() async {
 Engage uses your customer's unique identifier (this is mostly the id field of the users' table) to update the customer's attributes and track events. Here is the code to update a set of customer attributes for example:
 
 ```dart
-Engage.addAttributes'uniqueUserId', {
+Engage.addAttributes('uniqueUserId', {
   'plan': 'Pro'
 });
 ```
@@ -50,7 +50,7 @@ void logIn() async {
 }
 ```
 
-To help you correctly "identify" the user beyond just the ID, we recommend you track a few additional attributes. They are `first_name`, `last_name`, `email`, `number` (customer's phone number). We call them standard attributes. They help you identify the customer on the Engage dashboard. Depending on the ones supported by your platform, you can track one or more.
+To help you correctly "identify" the customer beyond just the ID, we recommend you track a few additional attributes. They are `first_name`, `last_name`, `email`, `number` (customer's phone number). We call them standard attributes. They help you identify the customer on your Engage dashboard. Depending on the ones supported by your platform, you can track one or more.
 
 You only need to track a standard attribute once, unless they change and you use `addAttributes` to update them. We call this "identifying" the customer.
 
@@ -65,7 +65,15 @@ We recommend you do this in two places:
 1. After login - this helps identify old customers that have sent data to Engage but are yet to be identified.
 2. On signup - this helps identify new customers.
 
-In the background, `identify` and `addAttributes` do the same thing. The truth is that you can use them interchangeably.
+By default, Engage sets the signup date of a newly identified customer to the current timestamp. This can be changed with the `created_at` parameter.
+
+```dart
+Engage.identify('u1234', {
+  'first_name': 'Opeyemi',
+  'last_name': 'O.',
+  'created_at': '2021-09-14'
+});
+```
 
 To track customer events, use `trackEvents`. Here it is in the most basic form.
 

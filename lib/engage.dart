@@ -18,7 +18,7 @@ class Engage {
   static void identify (String id, Map<String, Object> properties) {
     Map<String, Object> data = {};
     Map<String, Object> meta = {};
-    Set<String> standardAttributes = const {"first_name", "last_name", "email", "number"};
+    Set<String> standardAttributes = const {"first_name", "last_name", "email", "number", "created_at"};
     properties.forEach((key, value) {
       if (standardAttributes.contains(key)) {
         data[key] = value;
