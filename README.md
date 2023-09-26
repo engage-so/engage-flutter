@@ -49,7 +49,7 @@ Engage.addAttributes('uniqueUserId', {
 ```dart
 void logIn() async {
   // ... 
-  Engage.addAttributes('u1234', {
+  Engage.addAttributes('user_id_1234', {
     'last_login': DateTime.now()
   });
 }
@@ -60,8 +60,8 @@ To help you correctly "identify" the user beyond just the ID, we recommend you t
 You only need to track an attribute once, unless they change and you use `addAttributes` to update them. We call this "identifying" the user.
 
 ```dart
-// This maps the user ID u1234 to Opeyemi O.
-Engage.identify('u1234', {
+// This maps the user ID user_id_1234 to Opeyemi O.
+Engage.identify('user_id_1234', {
   'first_name': 'Opeyemi',
   'last_name': 'O.'
 });
@@ -74,7 +74,7 @@ We recommend you do this in two places:
 By default, Engage sets the signup date of a newly identified user to the current timestamp. This can be changed with the `created_at` parameter.
 
 ```dart
-Engage.identify('u1234', {
+Engage.identify('user_id_1234', {
   'first_name': 'Opeyemi',
   'last_name': 'O.',
   'created_at': '2021-09-14'
@@ -91,10 +91,10 @@ If we need to track stuff before the user is identified:
 // import 'package:uuid/uuid.dart';
 
 // Generate a random unique ID
-var id = uuid.v4()
-Engage.trackEvents(id, 'Launched app');
+var anonId = uuid.v4()
+Engage.trackEvents(anonId, 'Launched app');
 // ...Somewhere else, using same id
-Engage.trackEvents(id, 'Opened gallery');
+Engage.trackEvents(anonId, 'Opened gallery');
 ```
 
 Once user is identified:
@@ -104,30 +104,30 @@ void logIn() async {
   // ... 
   // User user = User.fromJson(result);
   // Merge the anonymous id to the identified user
-  Engage.merge(id, user.id);
+  Engage.merge(anonId, user.id);
 }
 ```
 
 ## Tracking events
 
-To track user events, use `trackEvents`. Here it is in the most basic form.
+To track user events, use `trackEvents`. Here it is in the most basic form:
 
 ```dart
-Engage.trackEvents('u1234', 'Sign up');
+Engage.trackEvents('user_id_1234', 'Sign up');
 ```
 
 Events can have a value:
 
 ```dart
-Engage.trackEvents('u1234', 'Paid', 35);
-Engage.trackEvents('u1234', 'Clicked', 'pro_course_3');
+Engage.trackEvents('user_id_1234', 'Paid', 35);
+Engage.trackEvents('user_id_1234', 'Clicked', 'pro_course_3');
 ```
 
 Or properties:
 
 ```dart
-Engage.trackEvents('u1234', 'Transfer', {
-  'to': 'u6789',
+Engage.trackEvents('user_id_1234', 'Transfer', {
+  'to': 'user_id_6789',
   'amount': 345.50,
   'deliver_on': DateTime.now()
 });
@@ -136,12 +136,12 @@ Engage.trackEvents('u1234', 'Transfer', {
 By default, the events are stamped by your current timestamp. To use a custom date, add a date argument.
 
 ```dart
-Engage.trackEvents('u1234', 'Sign up', DateTime.now());
+Engage.trackEvents('user_id_1234', 'Sign up', DateTime.now());
 ```
 
 ## Push notifications and Setting device token
 
-Finally, to use Engage for push notifications, we require you add your user's device token to their profile. To send this to Engage, get the token and call `setDeviceToken`. (You need to have installed and configured Firebase to get the device token).
+Finally, to use Engage for push notifications, we require you add your user's device token to their profile. To send this to Engage, get the token and call `setDeviceToken`. (You need to have installed and configured Firebase to get the device token). We recommend you call `setDeviceToken` at every application launch so that if for any unlikely reason the device token has changed, it would be updated on Engage
 
 ```dart
 void main() async {
@@ -154,11 +154,23 @@ void main() async {
     .getToken()
     .then((String? token) {
       if (token != null) {
-        Engage.setDeviceToken('u1334', token);
+        Engage.setDeviceToken('user_id_1334', token);
       }
     });
   runApp(const MyApp());
 }
+```
+
+To remove the device token from the user's profile, use `logout`. You should do this when the user logs out of your application so they do not continue to get push notifications when they are not logged in.
+
+```dart
+Engage.logout()
+```
+
+The `logout` method without any parameters assumes that `setDeviceToken` has been called earlier. If not, you can pass the user's ID and device token to the method.
+
+```dart
+Engage.logout('user_id_1334', token)
 ```
 
 ## Managing Accounts

@@ -1,3 +1,9 @@
+## [0.2.0] - 2023-09-26
+
+### Added
+
+- `logout`: delete the associated device token from the user's profile
+
 ## [0.1.0] - 2023-04-04
 
 ### Changed

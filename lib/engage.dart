@@ -11,6 +11,9 @@ class Engage {
   static String tz = '';
   static String version = '';
   static String build = '';
+
+  static String? uid;
+  static String? deviceToken;
   
   static const int put = 1;
   static const int post = 2;
@@ -51,7 +54,7 @@ class Engage {
 
     // print(data);
 
-    _request('/users/' + id, put, data);
+    _request('/users/$id', put, data);
   }
 
   static void setDeviceToken (String id, String token) {
@@ -64,6 +67,9 @@ class Engage {
       return;
     }
 
+    uid = id;
+    deviceToken = token;
+
     Map<String, Object> data = {
       'device_token': token,
       'device_platform': platform,
@@ -72,7 +78,20 @@ class Engage {
       'app_last_active': DateTime.now()
     };
     // print(data);
-    _request('/users/' + id, put, data);
+    _request('/users/$id', put, data);
+  }
+
+  static void logout ([String? id, String? token]) {
+    if (id != null) {
+      uid = id;
+    }
+    if (token != null) {
+      deviceToken = token;
+    }
+    if (uid == null || deviceToken == null) {
+      return;
+    }
+    _request('/users/$uid/tokens/$deviceToken', delete);
   }
 
   static void addAttributes (String id, Map<String, Object> attributes) =>
@@ -85,26 +104,26 @@ class Engage {
     }
     List<Map<String, String>> accounts = [g];
     Map<String, Object> data = { 'accounts': accounts };
-    _request('/users/' + id + '/accounts', post, data);
+    _request('/users/$id/accounts', post, data);
   }
 
   static void removeFromAccount (String id, String aid) {
-    _request('/users/' + id + '/accounts/' + aid, delete);
+    _request('/users/$id/accounts/$aid', delete);
   }
 
   static void changeAccountRole (String id, String aid, String role) {
     Map<String, Object> data = { 'role': role };
-    _request('/users/' + id + '/accounts/' + aid, put, data);
+    _request('/users/$id/accounts/$aid', put, data);
   }
 
   static void convertToCustomer (String id) {
     Map<String, Object> data = { 'type': 'customer' };
-    _request('/users/' + id + '/convert', post, data);
+    _request('/users/$id/convert', post, data);
   }
 
   static void convertToAccount (String id) {
     Map<String, Object> data = { 'type': 'account' };
-    _request('/users/' + id + '/convert', post, data);
+    _request('/users/$id/convert', post, data);
   }
 
   static void merge (String source, String destination) {
@@ -125,7 +144,7 @@ class Engage {
     if (date != null) {
       data['timestamp'] = date;
     }
-    _request('/users/' + id + '/events', post, data);
+    _request('/users/$id/events', post, data);
   }
 
   static Map<String, Object> _convertDateToString (Map<String, Object> data) {
@@ -141,7 +160,7 @@ class Engage {
 
   static void _request (String url, int type, [Map<String, Object>? data]) async {
     try {
-      String auth = 'Basic ' + base64Encode(utf8.encode('$publicKey:'));
+      String auth = 'Basic ${base64Encode(utf8.encode('$publicKey:'))}';
       // Convert date
       if (data != null) {
         data = _convertDateToString(data);
