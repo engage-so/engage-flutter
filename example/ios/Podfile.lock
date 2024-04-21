@@ -1,0 +1,35 @@
+PODS:
+  - Engage-swift (0.2.0)
+  - engage_flutter (0.3.0):
+    - Engage-swift (= 0.2.0)
+    - Flutter
+  - Flutter (1.0.0)
+  - integration_test (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - engage_flutter (from `.symlinks/plugins/engage_flutter/ios`)
+  - Flutter (from `Flutter`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Engage-swift
+
+EXTERNAL SOURCES:
+  engage_flutter:
+    :path: ".symlinks/plugins/engage_flutter/ios"
+  Flutter:
+    :path: Flutter
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+
+SPEC CHECKSUMS:
+  Engage-swift: a655af6e7ea15f8b847993be85ff085510100d90
+  engage_flutter: 74f168b00ad40dc5e30baa6a4679aba14b74f5b2
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  integration_test: 13825b8a9334a850581300559b8839134b124670
+
+PODFILE CHECKSUM: a57f30d18f102dd3ce366b1d62a55ecbef2158e5
+
+COCOAPODS: 1.15.2
