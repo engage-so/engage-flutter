@@ -76,9 +76,14 @@ abstract class EngageFlutterPlatform extends PlatformInterface {
 
   Future<void> track(
     String event, {
-    Map<String, dynamic> properties = const {},
+    Map<String, dynamic> value = const {},
+    DateTime? date,
     String? uid,
   }) {
     throw UnimplementedError('track() has not been implemented.');
+  }
+
+  Future<void> showDialog({required bool isCarousel}) {
+    throw UnimplementedError('showDialog() has not been implemented.');
   }
 }

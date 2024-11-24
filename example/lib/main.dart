@@ -1,3 +1,4 @@
+import 'package:engage_flutter/engage_flutter.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,8 +25,19 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: const Center(
-          child: Text('Running on'),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton(
+              onPressed: () => Engage.instance.showDialog(isCarousel: false),
+              child: const Text('Show modal'),
+            ),
+            ElevatedButton(
+              onPressed: () => Engage.instance.showDialog(isCarousel: true),
+              child: const Text('Show carousel'),
+            ),
+          ],
         ),
       ),
     );

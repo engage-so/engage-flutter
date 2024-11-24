@@ -57,10 +57,15 @@ class Engage {
 
   Future<void> track(
     String event, {
-    Map<String, dynamic> properties = const {},
+    Map<String, dynamic> value = const {},
+    DateTime? date,
     String? uid,
   }) {
     return EngageFlutterPlatform.instance
-        .track(event, properties: properties, uid: uid);
+        .track(event, value: value, date: date, uid: uid);
+  }
+
+  Future<void> showDialog({required bool isCarousel}) {
+    return EngageFlutterPlatform.instance.showDialog(isCarousel: isCarousel);
   }
 }

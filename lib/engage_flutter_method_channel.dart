@@ -111,12 +111,21 @@ class MethodChannelEngageFlutter extends EngageFlutterPlatform {
   @override
   Future<void> track(
     String event, {
-    Map<String, dynamic> properties = const {},
+    Map<String, dynamic> value = const {},
+    DateTime? date,
     String? uid,
   }) {
     return methodChannel.invokeMethod(
       'track',
-      {'event': event, 'properties': properties, 'uid': uid},
+      {'event': event, 'value': value, date: date, 'uid': uid},
+    );
+  }
+
+  @override
+  Future<void> showDialog({required bool isCarousel}) {
+    return methodChannel.invokeMethod(
+      'showDialog',
+      {'isCarousel': isCarousel},
     );
   }
 }
