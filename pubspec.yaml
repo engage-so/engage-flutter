@@ -1,6 +1,6 @@
 name: engage
 description: Engage flutter SDK.
-version: 0.2.0
+version: 0.3.0
 homepage: https://engage.so/
 
 environment:
@@ -10,13 +10,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_native_timezone: ^2.0.0
-  http: ^1.1.0
-  package_info_plus: ^4.1.0
+  flutter_timezone: ">1.0.0"
+  http: ">=1.1.0 <2.0.0"
+  package_info_plus: ">=4.0.0 <9.0.0"
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.3
+  flutter_lints: ^4.0.0
 
 flutter:

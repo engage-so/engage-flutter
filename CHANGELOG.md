@@ -1,3 +1,11 @@
+## [0.3.0] - 2025-02-14
+
+### Changed
+
+- Updated `package_info_plus` to 8.0.2
+- Updated `flutter_lints` to 4.0.2
+- Replaced `flutter_native_timezone` with `flutter_timezone`
+
 ## [0.2.0] - 2023-09-26
 
 ### Added

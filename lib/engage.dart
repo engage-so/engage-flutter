@@ -3,7 +3,7 @@ library engage;
 import 'dart:io' show Platform;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class Engage {
@@ -23,7 +23,7 @@ class Engage {
   static Future<void> init (String pk) async {
     publicKey = pk;
     try {
-      tz = await FlutterNativeTimezone.getLocalTimezone();
+      tz = await FlutterTimezone.getLocalTimezone();
     } catch(_) { }
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -51,8 +51,6 @@ class Engage {
     if (meta.isNotEmpty) {
       data['meta'] = meta;
     }
-
-    // print(data);
 
     _request('/users/$id', put, data);
   }
