@@ -8,8 +8,8 @@ class Engage {
   /// get the instance of the [Engage].
   static Engage get instance => _instance;
 
-  Future<void> initialise({required String publicKey}) {
-    return EngageFlutterPlatform.instance.initialise(publicKey: publicKey);
+  Future<void> init({required String publicKey}) {
+    return EngageFlutterPlatform.instance.init(publicKey: publicKey);
   }
 
   Future<void> identify(
@@ -65,7 +65,11 @@ class Engage {
         .track(event, value: value, date: date, uid: uid);
   }
 
-  Future<void> showDialog({required bool isCarousel}) {
-    return EngageFlutterPlatform.instance.showDialog(isCarousel: isCarousel);
+  void onMessageOpened(Function(Map<String, dynamic>) callback) {
+    EngageFlutterPlatform.instance.onMessageOpened(callback);
+  }
+
+  void onMessageReceived(Function(Map<String, dynamic>) callback) {
+    EngageFlutterPlatform.instance.onMessageReceived(callback);
   }
 }

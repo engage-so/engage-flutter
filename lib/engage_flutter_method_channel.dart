@@ -14,12 +14,23 @@ class MethodChannelEngageFlutter extends EngageFlutterPlatform {
   @visibleForTesting
   final eventChannel = const EventChannel('engage/event');
 
+  Function(Map<String, dynamic>)? _onMessaegOpenedHandler;
+  Function(Map<String, dynamic>)? _onMessaegReceivedHandler;
+
   @override
   Future<void> listen() async {
     debugPrint('Listening to: ${eventChannel.name}');
     await for (final event in eventChannel.receiveBroadcastStream()) {
       try {
         debugPrint('${eventChannel.name}: ${jsonEncode(event)}');
+
+        final message = Map<String, dynamic>.from(event);
+        if (message['type'] == 'onMessageOpened') {
+          _onMessaegOpenedHandler?.call(message['data']);
+        }
+        if (message['type'] == 'onMessageReceived') {
+          _onMessaegReceivedHandler?.call(message['data']);
+        }
       } catch (e) {
         debugPrint(e.toString());
       }
@@ -27,7 +38,7 @@ class MethodChannelEngageFlutter extends EngageFlutterPlatform {
   }
 
   @override
-  Future<void> initialise({required String publicKey}) {
+  Future<void> init({required String publicKey}) {
     return methodChannel.invokeMethod('initialise', {'publicKey': publicKey});
   }
 
@@ -122,10 +133,12 @@ class MethodChannelEngageFlutter extends EngageFlutterPlatform {
   }
 
   @override
-  Future<void> showDialog({required bool isCarousel}) {
-    return methodChannel.invokeMethod(
-      'showDialog',
-      {'isCarousel': isCarousel},
-    );
+  void onMessageOpened(Function(Map<String, dynamic>) callback) {
+    _onMessaegOpenedHandler = callback;
+  }
+
+  @override
+  void onMessageReceived(Function(Map<String, dynamic>) callback) {
+    _onMessaegReceivedHandler = callback;
   }
 }

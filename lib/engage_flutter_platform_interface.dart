@@ -27,7 +27,7 @@ abstract class EngageFlutterPlatform extends PlatformInterface {
     throw UnimplementedError('listen() has not been implemented.');
   }
 
-  Future<void> initialise({required String publicKey}) {
+  Future<void> init({required String publicKey}) {
     throw UnimplementedError('initialise() has not been implemented.');
   }
 
@@ -83,7 +83,11 @@ abstract class EngageFlutterPlatform extends PlatformInterface {
     throw UnimplementedError('track() has not been implemented.');
   }
 
-  Future<void> showDialog({required bool isCarousel}) {
-    throw UnimplementedError('showDialog() has not been implemented.');
+  void onMessageOpened(Function(Map<String, dynamic>) callback) {
+    throw UnimplementedError('onMessageOpened() has not been implemented.');
+  }
+
+  void onMessageReceived(Function(Map<String, dynamic>) callback) {
+    throw UnimplementedError('onMessageReceived() has not been implemented.');
   }
 }

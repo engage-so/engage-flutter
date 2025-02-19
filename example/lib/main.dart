@@ -16,6 +16,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    Engage.instance.onMessageOpened((message) {});
+    Engage.instance.onMessageOpened((message) {});
   }
 
   @override
@@ -25,19 +27,10 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Column(
+        body: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedButton(
-              onPressed: () => Engage.instance.showDialog(isCarousel: false),
-              child: const Text('Show modal'),
-            ),
-            ElevatedButton(
-              onPressed: () => Engage.instance.showDialog(isCarousel: true),
-              child: const Text('Show carousel'),
-            ),
-          ],
+          children: [],
         ),
       ),
     );

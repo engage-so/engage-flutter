@@ -52,9 +52,6 @@ public class MethodCallHandler: NSObject {
         case "track":
             track(call, result: result)
             return
-        case "showDialog":
-            showDialog(call, result: result)
-            return
         default:
             result(FlutterMethodNotImplemented)
             return
@@ -156,13 +153,6 @@ public class MethodCallHandler: NSObject {
             let date = args["date"] as? Date
             let uid = args["uid"] as? String
             engage.track(event: event, value: value, date: date, uid: uid)
-        }
-    }
-    
-    private func showDialog(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        if let args = call.arguments as? Dictionary<String, Any>,
-           let isCarousel = args["isCarousel"] as? Bool {
-            engage.showDialog(isCarousel: isCarousel)
         }
     }
 }
