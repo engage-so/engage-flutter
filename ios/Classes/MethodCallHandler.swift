@@ -3,11 +3,9 @@ import UIKit
 import Engage
 
 public class MethodCallHandler: NSObject {
-    var eventChannel: FlutterEventChannel
     var methodChannel: FlutterMethodChannel
     
-    init(eventChannel: FlutterEventChannel, methodChannel: FlutterMethodChannel) {
-        self.eventChannel = eventChannel
+    init(methodChannel: FlutterMethodChannel) {
         self.methodChannel = methodChannel
         super.init()
     }
@@ -62,8 +60,10 @@ public class MethodCallHandler: NSObject {
     private func initialise(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if let args = call.arguments as? Dictionary<String, Any>,
            let publicKey = args["publicKey"] as? String {
-            let _ = engage.initialise(publicKey: publicKey)
+            let _ = engage.initialize(publicKey: publicKey)
+            result(true)
         }
+        result(nil)
     }
     
     private func identify(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -71,7 +71,9 @@ public class MethodCallHandler: NSObject {
            let uid = args["uid"] as? String,
            let properties = args["properties"] as? Dictionary<String, Any> {
             engage.identify(uid: uid, properties: properties)
+            result(true)
         }
+        result(nil)
     }
     
     private func setDeviceToken(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -79,7 +81,9 @@ public class MethodCallHandler: NSObject {
            let deviceToken = args["deviceToken"] as? String {
             let uid = args["uid"] as? String
             engage.setDeviceToken(deviceToken: deviceToken, uid: uid)
+            result(true)
         }
+        result(nil)
     }
     
     private func logout(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -87,7 +91,9 @@ public class MethodCallHandler: NSObject {
            let deviceToken = args["deviceToken"] as? String {
             let uid = args["uid"] as? String
             engage.logout(deviceToken: deviceToken, uid: uid)
+            result(true)
         }
+        result(nil)
     }
     
     private func addToAccount(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -96,7 +102,9 @@ public class MethodCallHandler: NSObject {
             let role = args["role"] as? String
             let uid = args["uid"] as? String
             engage.addToAccount(aid: aid, role: role, uid: uid)
+            result(true)
         }
+        result(nil)
     }
     
     private func addAttributes(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -104,7 +112,9 @@ public class MethodCallHandler: NSObject {
            let properties = args["properties"] as? Dictionary<String, Any> {
             let uid = args["uid"] as? String
             engage.addAttributes(properties: properties, uid: uid)
+            result(true)
         }
+        result(nil)
     }
     
     private func removeFromAccount(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -112,7 +122,9 @@ public class MethodCallHandler: NSObject {
            let aid = args["aid"] as? String {
             let uid = args["uid"] as? String
             engage.removeFromAccount(aid: aid, uid: uid)
+            result(true)
         }
+        result(nil)
     }
     
     private func changeAccountRole(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -121,21 +133,27 @@ public class MethodCallHandler: NSObject {
            let role = args["role"] as? String {
             let uid = args["uid"] as? String
             engage.changeAccountRole(aid: aid, role: role, uid: uid)
+            result(true)
         }
+        result(nil)
     }
     
     private func convertToCustomer(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if let args = call.arguments as? Dictionary<String, Any> {
             let uid = args["uid"] as? String
             engage.convertToCustomer(uid: uid)
+            result(true)
         }
+        result(nil)
     }
     
     private func convertToAccount(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if let args = call.arguments as? Dictionary<String, Any> {
             let uid = args["uid"] as? String
             engage.convertToAccount(uid: uid)
+            result(true)
         }
+        result(nil)
     }
     
     private func merge(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -143,16 +161,20 @@ public class MethodCallHandler: NSObject {
            let source = args["source"] as? String,
            let destination = args["destination"] as? String {
             engage.merge(source: source, destination: destination)
+            result(true)
         }
+        result(nil)
     }
     
     private func track(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if let args = call.arguments as? Dictionary<String, Any>,
            let event = args["event"] as? String {
             let value = args["value"] as? Dictionary<String, Any>
-            let date = args["date"] as? Date
+//            let date = args["date"] as? Date
             let uid = args["uid"] as? String
-            engage.track(event: event, value: value, date: date, uid: uid)
+            engage.track(event: event, value: nil, date: nil, uid: uid)
+            result(true)
         }
+        result(nil)
     }
 }

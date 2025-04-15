@@ -11,34 +11,30 @@ class MethodChannelEngageFlutter extends EngageFlutterPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('engage');
 
-  @visibleForTesting
-  final eventChannel = const EventChannel('engage/event');
-
   Function(Map<String, dynamic>)? _onMessaegOpenedHandler;
   Function(Map<String, dynamic>)? _onMessaegReceivedHandler;
 
-  @override
-  Future<void> listen() async {
-    debugPrint('Listening to: ${eventChannel.name}');
-    await for (final event in eventChannel.receiveBroadcastStream()) {
+  void setMethodCallHandler() {
+    methodChannel.setMethodCallHandler((call) async {
       try {
-        debugPrint('${eventChannel.name}: ${jsonEncode(event)}');
+        debugPrint('${call.method}: ${jsonEncode(call.arguments)}');
 
-        final message = Map<String, dynamic>.from(event);
-        if (message['type'] == 'onMessageOpened') {
-          _onMessaegOpenedHandler?.call(message['data']);
+        final message = Map<String, dynamic>.from(call.arguments);
+        if (call.method == 'onMessageOpened') {
+          _onMessaegOpenedHandler?.call(message);
         }
-        if (message['type'] == 'onMessageReceived') {
-          _onMessaegReceivedHandler?.call(message['data']);
+        if (call.method == 'onMessageReceived') {
+          _onMessaegReceivedHandler?.call(message);
         }
       } catch (e) {
         debugPrint(e.toString());
       }
-    }
+    });
   }
 
   @override
   Future<void> init({required String publicKey}) {
+    setMethodCallHandler();
     return methodChannel.invokeMethod('initialise', {'publicKey': publicKey});
   }
 
@@ -128,7 +124,7 @@ class MethodChannelEngageFlutter extends EngageFlutterPlatform {
   }) {
     return methodChannel.invokeMethod(
       'track',
-      {'event': event, 'value': value, date: date, 'uid': uid},
+      {'event': event, 'value': value, 'date': date, 'uid': uid},
     );
   }
 

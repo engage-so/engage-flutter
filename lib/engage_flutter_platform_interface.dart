@@ -23,10 +23,6 @@ abstract class EngageFlutterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<void> listen() {
-    throw UnimplementedError('listen() has not been implemented.');
-  }
-
   Future<void> init({required String publicKey}) {
     throw UnimplementedError('initialise() has not been implemented.');
   }
